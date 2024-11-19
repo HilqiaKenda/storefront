@@ -24,7 +24,7 @@ class Product(models.Model):
     unit_price = models.DecimalField(validators=[MinValueValidator(5)], max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-    collection = models.ForeignKey(Collection, on_delete= models.PROTECT, related_name='productcollection')
+    collection = models.ForeignKey(Collection, on_delete= models.PROTECT, related_name='products')
     promotion = models.ManyToManyField(Promotion, blank=True)
     
     def __str__(self) -> str:
@@ -80,7 +80,7 @@ class Cart(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE)
 
     
-class Orderitem(models.Model):
+class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, on_delete= models.PROTECT, related_name='orderitems')
     quantity =models.PositiveSmallIntegerField()
@@ -97,3 +97,9 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete= models.CASCADE)
     product = models.ForeignKey(Product, on_delete= models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
+    
+class Review(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE, related_name='reviews')
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateField(auto_now_add=True)

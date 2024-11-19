@@ -63,7 +63,7 @@ class CollectionAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{}</a>', url,  count.product_counts)
 
     def get_queryset(self, request: HttpRequest)-> QuerySet:
-        return super().get_queryset(request).annotate(product_counts = Count('productcollection'))
+        return super().get_queryset(request).annotate(product_counts = Count('products'))
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -90,7 +90,7 @@ class OrderItemInline(admin.StackedInline):
     extra = 0
     min_num = 1
     max_num = 10
-    model = models.Orderitem
+    model = models.OrderItem
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
