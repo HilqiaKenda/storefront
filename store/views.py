@@ -1,21 +1,37 @@
 from django.db.models.aggregates import Count
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
+from .filters import ProductFilter
 from .models import Product, Collection, OrderItem, Review
+from .pagination import DefaultPagination
 from .serializers import ProductSerialier, CollecionSerializer, ReviewSerializer
 
 # Create your views here.
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all()
     serializer_class = ProductSerialier
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    # filterset_fields = ['collection_id']
+    pagination_class = DefaultPagination
+    filterset_class = ProductFilter
+    search_fields = ['title', 'description']
+    ordering_fields = ['id', 'title']
+    
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        collection_id = self.request.query_params.get('collection_id')
+        
+        if collection_id:
+            try:
+                collection_id = int(collection_id)
+                queryset = queryset.filter(collection_id=collection_id)
+            except:
+                raise ValueError("Invalid collection_id. It must be an integer.")
+        return queryset
     
     def get_serializer_context(self):
         return {'request': self.request}
@@ -129,8 +145,11 @@ class CollectionViewSet(ModelViewSet):
     #     return Response(status=status.HTTP_204_NO_CONTENT)
     
 class ReviewViewSet(ModelViewSet):
-    queryset = Review.objects.all()
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        return Review.objects.filter(product_id = self.kwargs['product_pk'])
     
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}
