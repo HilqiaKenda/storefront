@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator
+from django.utils.timezone import now
 from django.db import models
+from uuid import uuid4
 
 # Create your models here.
 class Promotion(models.Model):
@@ -71,14 +73,19 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_CHOICES, default=payment_pending)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     
-    
-class Items(models.Model):
-    product = models.CharField(max_length=255)
-    
-    
 class Cart(models.Model):
-    item = models.ForeignKey(Items, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    created_at = models.DateTimeField(default=now)
 
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete= models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete= models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1)]
+    )
+    
+    class Meta:
+        unique_together = [['cart', 'product']]
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
@@ -93,10 +100,6 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=6)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
 
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete= models.CASCADE)
-    product = models.ForeignKey(Product, on_delete= models.CASCADE)
-    quantity = models.PositiveSmallIntegerField()
     
 class Review(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE, related_name='reviews')
