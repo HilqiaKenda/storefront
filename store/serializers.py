@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.db import transaction
 from rest_framework import serializers
 from store.models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, Review
+from .signals import order_created
 
 class CollecionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,13 +118,24 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'customer', 'placed_at', 'payment_status', 'items']
         
+class UpdatPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['payment_status']
 class CreateOrderSerializer(serializers.Serializer):
     cart_id = serializers.UUIDField()
+    
+    def validate_cart_id(self, cart_id):
+        if not Cart.objects.filter(pk=cart_id).exists():
+            raise serializers.ValidationError('No cart with the given id')
+        if CartItem.objects.filter(cart_id=cart_id).count() == 0:
+            raise serializers.ValidationError('The cart is Empty')
+        return cart_id
     
     def save(self, **kwargs):
         with transaction.atomic():
             cart_id = self.validated_data['cart_id']
-            (customer, created) = Customer.objects.get_or_create(user_id = self.context['user_id'])
+            customer = Customer.objects.get(user_id = self.context['user_id'])
             order = Order.objects.create(customer=customer)
             
             cart_items = CartItem.objects\
@@ -141,5 +153,7 @@ class CreateOrderSerializer(serializers.Serializer):
             OrderItem.objects.bulk_create(orderItem)
             
             Cart.objects.filter(pk=cart_id).delete()
+            
+            order_created.send_robust(self.__class__, order=order)
             
             return order
