@@ -10,9 +10,9 @@ from rest_framework import status
 from core.serializers import UserSeriliazer
 from store.permissinos import IsAdminOrReadOnly, ViewCustomerHistoryPermission
 from .filters import ProductFilter
-from .models import Cart, CartItem, Customer, Order, Product, Collection, OrderItem, Review
+from .models import Cart, CartItem, Customer, Order, Product, Collection, OrderItem, ProductImage, Review
 from .pagination import DefaultPagination
-from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, CollecionSerializer, ReviewSerializer, UpdatPaymentSerializer, UpdateCartItemSerializer
+from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, CollecionSerializer, ReviewSerializer, UpdatPaymentSerializer, UpdateCartItemSerializer
 
 # Create your views here.
 
@@ -33,7 +33,7 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ['id', 'title']
     
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = Product.objects.prefetch_related("images").all()
         collection_id = self.request.query_params.get('collection_id')
         
         if collection_id:
@@ -52,7 +52,18 @@ class ProductViewSet(ModelViewSet):
             return Response({'error': 'This Product is associated with order item, it cannot be deleted now.'},status=status.HTTP_405_METHOD_NOT_ALLOWED)
         # Orderitem.adelete()
         return super().destroy(request, *args, **kwargs)
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+    # permission_classes = [IsAuthenticated]
     
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
+    
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id = self.kwargs['product_pk'])
+    
+
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(product_count=Count('products')).all()
     serializer_class = CollecionSerializer 

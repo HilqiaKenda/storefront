@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.utils.timezone import now
 from django.db import models
 from uuid import uuid4
+from .validators import validate_file_size
 
 
 # Create your models here.
@@ -38,6 +39,10 @@ class Product(models.Model):
     class Meta:
         ordering = ["title"]
         
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='store/images', validators=[validate_file_size])
+
 class Customer(models.Model):
     MEMBERSHIP_BRONZE='B'
     MEMBERSHIP_SILVER='S'
