@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'corsheaders',
     'rest_framework',
     'djoser',
     'playground',
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 'debug_toolbar.middleware.DebugToolBarMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,16 +63,21 @@ MIDDLEWARE = [
      'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+#     # Add other IPs if necessary
+# ]
+
 INTERNAL_IPS = [
+    #...
     '127.0.0.1',
-    # Add other IPs if necessary
+    #...
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8001',
+    'http://127.0.0 :8001',
 ]
 
-# INTERNAL_IPS = [
-#     #...
-#     '127.0.0.1',
-#     #...
-# ]
 
 ROOT_URLCONF = 'store_front.urls'
 
@@ -177,3 +183,14 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7)
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAL_PORT = 8025
+DEFAULT_FROM_EMAIL = 'info@grootbuy.com'
+
+ADMIN = [
+    ('Groot', 'admin@groot.com')
+]

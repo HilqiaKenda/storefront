@@ -13,6 +13,9 @@ django-filter = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
+django-cors-headers = "*"
+aiosmtpd = "*"
+django-templated-mail = "*"
 
 [dev-packages]
 
