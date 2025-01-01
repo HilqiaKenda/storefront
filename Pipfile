@@ -16,6 +16,9 @@ pillow = "*"
 django-cors-headers = "*"
 aiosmtpd = "*"
 django-templated-mail = "*"
+redis = "*"
+celery = "*"
+flower = "*"
 
 [dev-packages]
 

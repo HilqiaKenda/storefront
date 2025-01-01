@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -188,9 +189,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAL_PORT = 8025
+EMAL_PORT = 2525
 DEFAULT_FROM_EMAIL = 'info@grootbuy.com'
 
 ADMIN = [
     ('Groot', 'admin@groot.com')
 ]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_BEAT_SCHEDULE = {
+    'notify_customers':{
+        'task': 'playground.tasks.notify_customers',
+        'schedule': 5, # Every 5sec
+        'args': ['Hello World!'],
+        # 'schedule': crontab(minute='*/15') # Every 15min
+        # 'schedule': crontab(day_of_week=1, hour=7, minute=30) # The task will be Every Monday at 7:30
+    }
+}
