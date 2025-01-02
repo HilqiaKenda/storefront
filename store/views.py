@@ -67,6 +67,7 @@ class ProductImageViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(product_count=Count('products')).all()
     serializer_class = CollecionSerializer 
+    permission_classes = [IsAdminOrReadOnly]
     
     def destroy(self, request, *args, **kwargs):
         # if Collection.products.count() > 0:
