@@ -7,7 +7,6 @@ name = "pypi"
 django = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
-djangorestframework = "*"
 drf-nested-routers = "*"
 django-filter = "*"
 djoser = "*"
@@ -19,10 +18,14 @@ django-templated-mail = "*"
 redis = "*"
 celery = "*"
 flower = "*"
+djangorestframework = "*"
+pytest-django = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-django = "*"
+pytest-watch = "*"
+model-bakery = "*"
 
 [requires]
 python_version = "3.12"

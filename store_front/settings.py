@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from datetime import timedelta
-import os
 from pathlib import Path
+from datetime import timedelta
 from celery.schedules import crontab
+from django.utils.deprecation import RemovedInDjango60Warning
+import os
+import warnings
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -206,3 +209,10 @@ CELERY_BEAT_SCHEDULE = {
         # 'schedule': crontab(day_of_week=1, hour=7, minute=30) # The task will be Every Monday at 7:30
     }
 }
+
+
+warnings.filterwarnings(
+    "ignore",
+    category=RemovedInDjango60Warning,
+    message="Converter 'drf_format_suffix' is already registered.*"
+)
