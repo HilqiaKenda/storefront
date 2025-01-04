@@ -16,7 +16,7 @@ def create_collection(api_client):
 class TestCreateCollections:
     
     # @pytest.mark.skip
-    def test_if_user_is_anonymous_returns401(self, create_collection):
+    def test_if_user_is_anonymous_returns_401(self, create_collection):
         # AAA (Arrange, Act, Assert)
         # Arrange: where we preare our system under test "create object, put database, iniatial state etc.."
         
@@ -49,14 +49,39 @@ class TestCreateCollections:
         
         
 @pytest.mark.django_db
-class TestretieveCollection:
+class TestRetieveCollection:
     def test_if_collection_exist_returns_200(self, api_client):
         # Arrange: where we preare our system under test "create object, put database, iniatial state etc.."
         collection = baker.make(Collection)
         response = api_client.get(f'/store/collections/{collection.id}/')
-        
-        # print(collection.__dict__)
 
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == {
+            'id': collection.id,
+            'title': collection.title,
+            'product_count': 0
+        }
+
+@pytest.mark.django_db
+class TestUpdateCollection:
+    def test_if_update_and_user_is_not_admin_returns_401(self, api_client):
+        collection = baker.make(Collection)
+        response = api_client.patch(f'/store/collections/{collection.id}/')
+        
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        
+    def test_if_update_and_user_is_not_admin_returns_401(self, api_client):
+        collection = baker.make(Collection)
+        response = api_client.put(f'/store/collections/{collection.id}/')
+        
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        
+    def test_if_update_and_user_is_admin_returns_200(self, api_client, authenicate_user):
+        authenicate_user(is_staff=True)
+        collection = baker.make(Collection)
+        response = api_client.patch(f'/store/collections/{collection.id}/')
+        
         assert response.status_code == status.HTTP_200_OK
         assert response.data == {
             'id': collection.id,
