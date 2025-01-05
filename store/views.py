@@ -30,7 +30,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     permission_classes = [IsAdminOrReadOnly]
     search_fields = ['title', 'description']
-    ordering_fields = ['id', 'title']
+    ordering_fields = ['unit_price', 'last_update']
     
     def get_queryset(self):
         queryset = Product.objects.prefetch_related("images").all()
