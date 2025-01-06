@@ -22,6 +22,8 @@ djangorestframework = "*"
 pytest-django = "*"
 locust = "*"
 django-redis = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 pytest = "*"
