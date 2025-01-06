@@ -1,28 +1,18 @@
+from django.core.cache import cache
 from django.shortcuts import render
-# from django.core.mail import send_mail, mail_admins, EmailMessage, BadHeaderError
-# from templated_mail.mail import BaseEmailMessage
-from .tasks import notify_customers
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from rest_framework.views import APIView
+import requests
 
 # Create your views here.
-def say_hello(request):
-    notify_customers.delay('hello')
-    return render(request, "hello.html", {"name": "Hilqia"})
-
-
-# def say_hello(request):
-    # try:
-        # send_mail('subject', 'message', 'info@groot.com', ['bob@groot.com'])
-        # mail_admins('subject', 'message', html_message='message')
-        # message = EmailMessage('subject', 'message', 'info@groot.com', ['bob@groot.com'])
-        # message.attach_file('playground/static/images/DodgeChallenger.jpeg')
-        # message.send()
-    #     message = BaseEmailMessage(
-    #         template_name='emails/hello.html',
-    #         context={'name': 'Hilqia'}
-    #     )
-    #     message.send(['jonathan.groot@gmail.com'])
+class HelloView(APIView):
+    @method_decorator(cache_page(5 * 60))
+    def get(self, request):
+        response = requests.get('https://httpbin.org/delay/2')
+        data = response.json()
+        return render(request, "hello.html", {"name": data})
         
-    # except BadHeaderError:
-    #     pass
-        # raise ValueError('Unaurhorize email has been try!!')
-    # return render(request, "hello.html", {"name": "Hilqia"})
+
+
+

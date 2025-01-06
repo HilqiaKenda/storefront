@@ -21,6 +21,7 @@ flower = "*"
 djangorestframework = "*"
 pytest-django = "*"
 locust = "*"
+django-redis = "*"
 
 [dev-packages]
 pytest = "*"
