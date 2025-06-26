@@ -12,6 +12,7 @@ click-repl==0.3.0
 cron-descriptor==1.4.5
 cryptography==45.0.4
 defusedxml==0.7.1
+dj-database-url==3.0.0
 Django==5.2.3
 django-celery-beat==2.8.1
 django-cors-headers==4.7.0
@@ -44,7 +45,9 @@ six==1.17.0
 social-auth-app-django==5.4.3
 social-auth-core==4.6.1
 sqlparse==0.5.3
+typing_extensions==4.14.0
 tzdata==2025.2
 urllib3==2.5.0
 vine==5.1.0
 wcwidth==0.2.13
+whitenoise==6.9.0
