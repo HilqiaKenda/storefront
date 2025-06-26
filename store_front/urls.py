@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 
-admin.site.site_header="storefront admin"
+admin.site.site_header="store_front admin"
 admin.site.index_title="admin"
 
 urlpatterns = [
