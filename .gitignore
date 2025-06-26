@@ -1,4 +1,77 @@
+.env
+myenv/
+venv/
+static/
+staticfiles/
+crm_main/scrapper_testing/config.py
+crm_main/scrapper_testing/cookies.json
+*.log
+*.pyc
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+
+# Django Environment Variables
+.env
+.env.*
+!.env.example
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+myenv/
+m365-env/
+venv/
+ENV/
+env/
+.venv/
+.env/
+
+# VS Code
 .vscode/
-/media/
-/static/
-general.log
+*.code-workspace
+.env
+
+migrations/
+myvenv
+
+myvenv
+debug.log
+#ignore all __pycache__ results recursively
+**/__pycache__/
+
+# Ignore all migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+#Ignore chromadb
+**/chroma_db/
+*.faiss.index
+**/faiss_index.bin
+__pycache__/
+*.pyc

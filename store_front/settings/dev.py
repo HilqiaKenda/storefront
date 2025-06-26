@@ -13,9 +13,9 @@ SECRET_KEY = 'django-insecure-&&e#r7*w+6yjgp!dx=2(u!53_fc)r0o)l@$h@cy#pldqggy4_r
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'storefront3',
+        'NAME': 'storefront',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'Groot'
+        'PASSWORD': 'Groot5'
     }
 }
