@@ -12,7 +12,8 @@ body {
 }
 
 .logo {
-  width: 300px;
+  width: 100vw;
+  height: 100vh;
 }
 
 .thumbnail {
