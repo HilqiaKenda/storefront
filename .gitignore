@@ -1,71 +1,66 @@
-.env
-myenv/
-venv/
-static/
-*.log
-*.pyc
-# Django
-*.log
-*.pot
-*.pyc
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media
-
-# Django Environment Variables
+# Environment Variables
 .env
 .env.*
 !.env.example
-# Python
+
+# Python Cache and Bytecode
+__pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# Log files
+*.log
+debug.log
+
+# SQLite DB
+db.sqlite3
+db.sqlite3-journal
+
+# Django
+local_settings.py
+*.pot
+migrations/
+**/migrations/*
+!**/migrations/__init__.py
+
+# Static & Media
+static/
+media/
+
+# Virtual Environments
+env/
+ENV/
+env.bak/
+venv/
+myenv/
+myvenv/
+.venv/
 .Python
+
+# Build artifacts
 build/
-develop-eggs/
 dist/
 downloads/
-eggs/
+*.egg-info/
 .eggs/
+develop-eggs/
 lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
-*.egg-info/
-.installed.cfg
 *.egg
 MANIFEST
-
-# Virtual Environment
-myenv/
-venv/
-ENV/
-env/
-.venv/
-.env/
+.installed.cfg
 
 # VS Code
 .vscode/
 *.code-workspace
-.env
 
-migrations/
-myvenv
-
-myvenv
-debug.log
-#ignore all __pycache__ results recursively
-**__pycache__/
-
-# Ignore all migrations
-**/migrations/*
-!**/migrations/__init__.py
-
-#Ignore chromadb
+# ChromeDB and FAISS Indexes
 **/chroma_db/
 *.faiss.index
 **/faiss_index.bin
-*.pyc
