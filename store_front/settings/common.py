@@ -169,18 +169,14 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7)
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAL_PORT = 2525
-DEFAULT_FROM_EMAIL = 'info@grootbuy.com'
 
 ADMIN = [
     ('Groot', 'admin@groot.com')
 ]
 
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
+
+DEFAULT_FROM_EMAIL = 'info@grootbuy.com'
+
 CELERY_BEAT_SCHEDULE = {
     'notify_customers':{
         'task': 'playground.tasks.notify_customers',
