@@ -26,14 +26,15 @@ migrations/
 !**/migrations/__init__.py
 
 # Static & Media
-static/
-media/
+# static/
+# media/
 
 # Virtual Environments
 env/
 ENV/
 env.bak/
 venv/
+pipenv/
 myenv/
 myvenv/
 .venv/
