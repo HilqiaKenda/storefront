@@ -207,7 +207,7 @@ MIT License
 
 ## 💬 Contact
 
-For feedback, reach out to [yourname@example.com](mailto:yourname@example.com) or open an issue on the GitHub repo.
+For feedback, reach out to [hilkiakenda@gmail.com](mailto:hilkiakenda@gmail.com) or open an issue on the GitHub repo.
 
 ---
 
